@@ -6,6 +6,7 @@ import {
   Button,
   CircularProgress,
   Grid,
+  LinearProgress,
   Stack,
   Tab,
   Tabs,
@@ -13,12 +14,12 @@ import {
   Typography
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Navigate } from "react-router-dom";
 import ApiQuery from "../../ApiQuery";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-// import AlertPopup from "../../components/AlertPopup";
+import AlertPopup from "../../components/AlertPopup";
 
 const Vote = () => {
   const [value, setValue] = React.useState(0);
@@ -26,11 +27,13 @@ const Vote = () => {
   const isAuth = useIsAuthenticated();
   const { accounts } = useMsal();
 
+  const queryClient = useQueryClient();
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const { data } = useQuery({
+  const { data, isLoading: categoryLoading } = useQuery({
     queryKey: ["categories"],
     queryFn: () => {
       return ApiQuery.getAllCategories();
@@ -42,6 +45,19 @@ const Vote = () => {
     queryFn: () => {
       return ApiQuery.getAllEmployees();
     }
+  });
+
+  const { data: userVotesData } = useQuery({
+    queryKey: ["userVotes"],
+    queryFn: () => {
+      return ApiQuery.getUserVotes(accounts[0].username);
+    },
+    enabled: !!accounts[0].username
+  });
+
+  const { data: votesData } = useQuery({
+    queryKey: ["votes"],
+    queryFn: () => ApiQuery.getAllVotes()
   });
 
   const filterByType = (type) => {
@@ -64,15 +80,18 @@ const Vote = () => {
 
   const {
     data: respData,
-    // isError,
-    // isSuccess,
+    isError,
+    error,
     isLoading,
-    mutate
+    mutate,
+    isSuccess
   } = useMutation({
     mutationFn: (formData) => {
       return ApiQuery.castVote(formData);
     },
-    onSuccess: (data) => {},
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["categories", "userVotes", "employees"]);
+    },
     onError: (err) => {
       console.log(err);
     }
@@ -90,7 +109,9 @@ const Vote = () => {
     }
   }, [isLoading]);
 
-  console.log(respData);
+  if (categoryLoading) {
+    return <LinearProgress />;
+  }
 
   if (!isAuth) {
     return <Navigate to="/" />;
@@ -119,23 +140,34 @@ const Vote = () => {
             {data?.categories?.map((category) => {
               return (
                 <Stack spacing={2}>
-                  {
-                    // isSuccess && <AlertPopup open={true} message={respData?}
-                  }
+                  {isSuccess && (
+                    <AlertPopup open={true} message={respData?.message} />
+                  )}
+                  {isError && (
+                    <AlertPopup
+                      severity="error"
+                      open={true}
+                      message={error?.response?.data?.message}
+                    />
+                  )}
                   <Typography fontSize={15} fontWeight="bold">
                     {category.category}{" "}
                     {category.level === "employee"
                       ? `(${"All Fasset Stuff"})`
                       : `(${
                           category.level.charAt(0).toUpperCase() +
-                          category.level.slice(1) + 's'
+                          category.level.slice(1) +
+                          "s"
                         })`}
                   </Typography>
                   <Formik
                     initialValues={{
                       categoryId: category.id || "",
                       userVotingEmail: accounts[0].username || "",
-                      employeeId: ""
+                      employeeId:
+                        votesData?.votes?.find((vote) => {
+                          return vote.categoryId === category.id;
+                        })?.employeeId || ""
                     }}
                     validationSchema={Yup.object().shape({
                       employeeId: Yup.string().required(
@@ -145,11 +177,12 @@ const Vote = () => {
                     enableReinitialize
                     key={category.id}
                     onSubmit={(values) => {
+                      console.log(values);
                       mutate(values);
                     }}
                   >
                     {(formik) => {
-                      // console.log(formik);
+                      // console.log();
                       return (
                         <Form>
                           <Grid container spacing={2}>
@@ -214,7 +247,14 @@ const Vote = () => {
                                   variant="contained"
                                   sx={{ fontWeight: "bolder" }}
                                   type="submit"
-                                  disabled={isLoading && true}
+                                  disabled={
+                                    (isLoading ||
+                                      userVotesData?.userVotes.find(
+                                        (userVote) =>
+                                          userVote.categoryId === category.id
+                                      )) &&
+                                    true
+                                  }
                                 >
                                   Nominate & Vote
                                 </Button>
