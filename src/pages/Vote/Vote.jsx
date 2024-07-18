@@ -56,10 +56,17 @@ const Vote = () => {
     enabled: !!accounts[0]?.username
   });
 
-  // const { data: votesData } = useQuery({
-  //   queryKey: ["votes"],
-  //   queryFn: () => ApiQuery.getAllVotes()
-  // });
+  const accessToken = localStorage.getItem("accessToken");
+
+  const { data: userInfoData, userInfoLoading } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: () => {
+      return ApiQuery.getUserInfo(accessToken);
+    },
+    enabled: !!accessToken
+  });
+
+  console.log(userInfoData);
 
   const filterByType = (type) => {
     return employeeData?.employees?.filter((option) => option.type === type);
@@ -78,6 +85,8 @@ const Vote = () => {
         option.position?.toLowerCase() !== "department"
     );
   };
+
+  // console.log(accounts)
 
   const {
     data: respData,
@@ -110,7 +119,7 @@ const Vote = () => {
     }
   }, [isLoading]);
 
-  if (categoryLoading) {
+  if (categoryLoading || userInfoLoading) {
     return <LinearProgress />;
   }
 
@@ -128,7 +137,11 @@ const Vote = () => {
             aria-label="basic tabs example"
           >
             <Tab label="Cast Vote" {...a11yProps(0)} />
-            <Tab label="Results" {...a11yProps(1)} />
+            {(userInfoData?.jobTitle ===
+              "Communications & Stakeholder Engagement Manager" ||
+              userInfoData?.mail === "Themba.Makamu@fasset.org.za") && (
+              <Tab label="Results" {...a11yProps(1)} />
+            )}
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
