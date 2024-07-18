@@ -18,13 +18,13 @@ export const themeDark = createTheme({
         }
       }
     },
-    MuiAccordionSummary: {
-      styleOverrides: {
-        root: {
-          color: "#FFFFFF"
-        }
-      }
-    },
+    // MuiAccordionSummary: {
+    //   styleOverrides: {
+    //     root: {
+    //       color: "#FFFFFF"
+    //     }
+    //   }
+    // },
     MuiButton: {
       styleOverrides: {
         // root: {
@@ -38,7 +38,7 @@ export const themeDark = createTheme({
           backgroundColor: "#1ccaff"
         }
       }
-    }
+    },
 
     // MuiButton: {
     //   styleOverrides: {
@@ -95,13 +95,13 @@ export const themeLight = createTheme({
         }
       }
     },
-    MuiAccordionSummary: {
-      styleOverrides: {
-        root: {
-          color: "#FFFFFF"
-        }
-      }
-    },
+    // MuiAccordionSummary: {
+    //   styleOverrides: {
+    //     root: {
+    //       color: "#FFFFFF"
+    //     }
+    //   }
+    // },
     MuiTableHead: {
       styleOverrides: {
         root: {
@@ -123,7 +123,7 @@ export const themeLight = createTheme({
       contrastText: "#ffffff"
     },
     background: {
-      paper: "#fbfbfbff"
+      paper: "#fbfbfbff",
       // default: "#f3f3f3ff"
     }
   },
