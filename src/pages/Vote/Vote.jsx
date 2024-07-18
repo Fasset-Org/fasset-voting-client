@@ -18,7 +18,7 @@ import { Navigate } from "react-router-dom";
 import ApiQuery from "../../ApiQuery";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import AlertPopup from "../../components/AlertPopup";
+// import AlertPopup from "../../components/AlertPopup";
 
 const Vote = () => {
   const [value, setValue] = React.useState(0);
@@ -64,8 +64,8 @@ const Vote = () => {
 
   const {
     data: respData,
-    isError,
-    isSuccess,
+    // isError,
+    // isSuccess,
     isLoading,
     mutate
   } = useMutation({
