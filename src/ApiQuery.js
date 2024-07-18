@@ -30,6 +30,12 @@ const ApiQuery = {
     const resp = await axios.get(`${BASE_API_URL}/getAllVotes`);
 
     return resp?.data;
+  },
+
+  getResults: async (categoryId) => {
+    const resp = await axios.get(`${BASE_API_URL}/results/${categoryId}`);
+
+    return resp?.data;
   }
 };
 
