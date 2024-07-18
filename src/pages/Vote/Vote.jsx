@@ -20,6 +20,7 @@ import ApiQuery from "../../ApiQuery";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import AlertPopup from "../../components/AlertPopup";
+import Results from "../../components/Results";
 
 const Vote = () => {
   const [value, setValue] = React.useState(0);
@@ -50,15 +51,15 @@ const Vote = () => {
   const { data: userVotesData } = useQuery({
     queryKey: ["userVotes"],
     queryFn: () => {
-      return ApiQuery.getUserVotes(accounts[0].username);
+      return ApiQuery.getUserVotes(accounts[0]?.username);
     },
-    enabled: !!accounts[0].username
+    enabled: !!accounts[0]?.username
   });
 
-  const { data: votesData } = useQuery({
-    queryKey: ["votes"],
-    queryFn: () => ApiQuery.getAllVotes()
-  });
+  // const { data: votesData } = useQuery({
+  //   queryKey: ["votes"],
+  //   queryFn: () => ApiQuery.getAllVotes()
+  // });
 
   const filterByType = (type) => {
     return employeeData?.employees?.filter((option) => option.type === type);
@@ -164,10 +165,7 @@ const Vote = () => {
                     initialValues={{
                       categoryId: category.id || "",
                       userVotingEmail: accounts[0].username || "",
-                      employeeId:
-                        votesData?.votes?.find((vote) => {
-                          return vote.categoryId === category.id;
-                        })?.employeeId || ""
+                      employeeId: ""
                     }}
                     validationSchema={Yup.object().shape({
                       employeeId: Yup.string().required(
@@ -286,7 +284,7 @@ const Vote = () => {
           </Stack>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          Item Two
+          <Results />
         </CustomTabPanel>
       </Box>
     </Stack>
