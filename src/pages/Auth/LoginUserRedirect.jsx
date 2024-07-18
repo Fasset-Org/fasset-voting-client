@@ -1,6 +1,6 @@
 // App.js
 import React, { useEffect } from "react";
-import { useIsAuthenticated, useMsal } from "@azure/msal-react";
+import { useMsal } from "@azure/msal-react";
 import { loginRequest } from "../../auth.Config";
 import { Button, Stack, Typography } from "@mui/material";
 import logo from "../../images/blueLogo-transparentBg.png";
@@ -9,9 +9,6 @@ import { Navigate } from "react-router-dom";
 const LoginUserRedirect = () => {
   const { instance, accounts } = useMsal();
 
-  const isAuth = useIsAuthenticated();
-  console.log(isAuth);
-
   useEffect(() => {
     if (accounts.length > 0) {
       instance
@@ -19,6 +16,7 @@ const LoginUserRedirect = () => {
         .then((response) => {
           console.log("Redirect response:", response);
           if (response) {
+            localStorage.setItem("accessToken", response.accessToken);
             console.log("Redirect response:", response);
             // localStorage.setItem("accessToken", response.accessToken);
           }
@@ -30,9 +28,12 @@ const LoginUserRedirect = () => {
   }, [accounts.length, instance]);
 
   const handleLogin = () => {
-    instance.loginRedirect(loginRequest).catch((e) => {
-      console.error(e);
-    });
+    instance
+      .loginRedirect(loginRequest)
+      .then((resp) => {})
+      .catch((e) => {
+        console.error(e);
+      });
   };
 
   if (accounts.length > 0) {
