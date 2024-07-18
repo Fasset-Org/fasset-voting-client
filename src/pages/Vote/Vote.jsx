@@ -137,9 +137,9 @@ const Vote = () => {
             aria-label="basic tabs example"
           >
             <Tab label="Cast Vote" {...a11yProps(0)} />
-            {(userInfoData?.jobTitle ===
+            {(accounts[0].username ===
               "Communications & Stakeholder Engagement Manager" ||
-              userInfoData?.mail === "Themba.Makamu@fasset.org.za") && (
+              accounts[0].username === "Themba.Makamu@fasset.org.za") && (
               <Tab label="Results" {...a11yProps(1)} />
             )}
           </Tabs>
