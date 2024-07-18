@@ -1,102 +1,38 @@
 import "./App.css";
-import { useIsAuthenticated, useMsal } from "@azure/msal-react";
-
-import { graphConfig, loginRequest } from "./auth.Config";
-import { Button, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { InteractionRequiredAuthError } from "@azure/msal-browser";
-import axios from "axios";
-
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { themeDark, themeLight } from "./theme";
+import LoginUserRedirect from "./pages/Auth/LoginUserRedirect";
+import Vote from "./pages/Vote/Vote";
+import { ReactQueryDevtools } from 'react-query/devtools'
 function App() {
-  const { accounts, instance } = useMsal();
-
-  const isAuthenticated = useIsAuthenticated();
-  const [userData, setUserData] = useState(null);
-
-  console.log(userData);
-
-  const handleRedirect = () => {
-    instance
-      .loginRedirect({
-        ...loginRequest,
-        prompt: "create"
-      })
-      .catch((err) => console.log(err));
-  };
-
-  console.log(accounts);
-  console.log("isAuthenticated", isAuthenticated);
-
-  useEffect(() => {
-    instance
-      .handleRedirectPromise()
-      .then((response) => {
-        if (response) {
-          console.log("Redirect response:", response);
-        }
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-  }, [instance]);
-
-  useEffect(() => {
-    if (isAuthenticated && accounts.length > 0) {
-      const request = {
-        ...loginRequest,
-        account: accounts[0]
-      };
-
-      instance
-        .acquireTokenSilent(request)
-        .then((response) => {
-          const accessToken = response.accessToken;
-          console.log(accessToken);
-          fetchUserData(accessToken);
-        })
-        .catch((error) => {
-          if (error instanceof InteractionRequiredAuthError) {
-            instance
-              .acquireTokenRedirect(request)
-              .then((response) => {
-                const accessToken = response.accessToken;
-                console.log(accessToken);
-                fetchUserData(accessToken);
-              })
-              .catch((err) => console.log(err));
-          }
-        });
+  const theme = localStorage.getItem("theme") || "light";
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      mutations: {
+        retry: 0
+      },
+      queries: {
+        retry: 0
+      }
     }
-  }, [isAuthenticated, accounts, instance]);
+  });
 
-  const fetchUserData = async (accessToken) => {
-    try {
-      const response = await axios.get(graphConfig.graphUserEndpoint, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      });
-      setUserData(response.data);
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-
-  if (isAuthenticated) {
-    return (
-      <div className="App">
-        <Typography>Signed In</Typography>
-      </div>
-    );
-  } else {
-    return (
-      <div className="App">
-        <Button variant="contained" onClick={handleRedirect}>
-          Sign In
-        </Button>
-      </div>
-    );
-  }
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme === "light" ? themeLight : themeDark}>
+        <CssBaseline />
+        <Router>
+          <Routes>
+            <Route path="/vote" element={<Vote />} />
+            <Route path="/" element={<LoginUserRedirect />} />
+          </Routes>
+        </Router>
+      </ThemeProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  );
 }
 
 export default App;
