@@ -100,7 +100,9 @@ const Vote = () => {
       return ApiQuery.castVote(formData);
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries(["categories", "userVotes", "employees"]);
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+      queryClient.invalidateQueries({ queryKey: ["userVotes"] });
+      queryClient.invalidateQueries({ queryKey: ["employees"] });
     },
     onError: (err) => {
       console.log(err);
@@ -137,8 +139,7 @@ const Vote = () => {
             aria-label="basic tabs example"
           >
             <Tab label="Cast Vote" {...a11yProps(0)} />
-            {(accounts[0].username ===
-              "Vusi.Mahlangu@fasset.org.za" ||
+            {(accounts[0].username === "Vusi.Mahlangu@fasset.org.za" ||
               accounts[0].username === "Themba.Makamu@fasset.org.za") && (
               <Tab label="Results" {...a11yProps(1)} />
             )}
