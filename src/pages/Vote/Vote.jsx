@@ -138,7 +138,7 @@ const Vote = () => {
           >
             <Tab label="Cast Vote" {...a11yProps(0)} />
             {(accounts[0].username ===
-              "Communications & Stakeholder Engagement Manager" ||
+              "Vusi.Mahlangu@fasset.org.za" ||
               accounts[0].username === "Themba.Makamu@fasset.org.za") && (
               <Tab label="Results" {...a11yProps(1)} />
             )}
