@@ -168,7 +168,7 @@ const Vote = () => {
                   <Typography fontSize={15} fontWeight="bold">
                     {category.category}{" "}
                     {category.level === "employee"
-                      ? `(${"All Fasset Stuff"})`
+                      ? `(${"All FASSET Staff"})`
                       : `(${
                           category.level.charAt(0).toUpperCase() +
                           category.level.slice(1) +
