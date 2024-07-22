@@ -6,6 +6,7 @@ export const msalConfig = {
     authority:
       "https://login.microsoftonline.com/3d3f86ca-e332-4da9-b129-8c9c3dea576d",
     redirectUri: "https://voting.fasset.org.za"
+    // redirectUri: "http://localhost:3000"
   },
   cache: {
     cacheLocation: "sessionStorage",
