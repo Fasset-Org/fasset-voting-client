@@ -2,6 +2,7 @@ import axios from "axios";
 import { graphConfig } from "./auth.Config";
 
 const BASE_API_URL = `https://voting-api.fasset.org.za/api/v1`;
+// const BASE_API_URL = `http://localhost:8001/api/v1`;
 
 const ApiQuery = {
   getAllCategories: async () => {
