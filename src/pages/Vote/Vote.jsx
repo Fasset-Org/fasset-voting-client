@@ -138,7 +138,7 @@ const Vote = () => {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="Cast Vote" {...a11yProps(0)} />
+            <Tab label="Nominate" {...a11yProps(0)} />
             {(accounts[0].username === "Vusi.Mahlangu@fasset.org.za" ||
               accounts[0].username === "Themba.Makamu@fasset.org.za") && (
               <Tab label="Results" {...a11yProps(1)} />
@@ -146,7 +146,7 @@ const Vote = () => {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <Stack spacing={2}>
+        <Stack spacing={2}>
             <Typography
               sx={{ fontSize: 20, fontWeight: "bolder", color: "primary.main" }}
             >
@@ -268,7 +268,7 @@ const Vote = () => {
                                     true
                                   }
                                 >
-                                  Nominate & Vote
+                                  Nominate
                                 </Button>
                               </Stack>
                             </Grid>
