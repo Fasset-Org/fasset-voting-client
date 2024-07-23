@@ -43,10 +43,10 @@ const LoginUserRedirect = () => {
       <Stack
         spacing={2}
         padding={2}
-        height="100vh"
+        height="85vh"
         justifyContent="center"
         alignItems="center"
-        sx={{ border: 5, borderColor: "primary.main" }}
+        // sx={{ border: 5, borderColor: "primary.main" }}
       >
         {/* <Stack
           alignItems="center"
