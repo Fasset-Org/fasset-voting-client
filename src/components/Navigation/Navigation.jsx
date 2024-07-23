@@ -4,22 +4,19 @@ import {
   IconButton,
   Stack,
   Toolbar,
-  Tooltip,
-  useMediaQuery
+  Tooltip
 } from "@mui/material";
 import React from "react";
 // import { Outlet } from "react-router-dom";
 import logo from "../../images/horizontal-logo.png";
 import { SignOutButton } from "../SignOutButton";
 import { useIsAuthenticated } from "@azure/msal-react";
-import { useTheme } from "@mui/material/styles";
+
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 
 const Navigation = ({ currentTheme, setThemeMode, children }) => {
   const isAuth = useIsAuthenticated();
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
   console.log(currentTheme);
 
@@ -43,56 +40,31 @@ const Navigation = ({ currentTheme, setThemeMode, children }) => {
                 spacing={2}
               >
                 <Tooltip title="Set Theme">
-                  {isDesktop ? (
-                    <>
-                      {currentTheme ? (
-                        <IconButton
-                          onClick={() => setThemeMode(!currentTheme)}
-                          size="medium"
+                  <>
+                    {currentTheme ? (
+                      <IconButton
+                        onClick={() => setThemeMode(!currentTheme)}
+                        size="medium"
+                        sx={{ color: "#FFFFFF" }}
+                      >
+                        <DarkModeIcon
+                          fontSize="medium"
                           sx={{ color: "#FFFFFF" }}
-                        >
-                          <DarkModeIcon
-                            fontSize="medium"
-                            sx={{ color: "#FFFFFF" }}
-                          />
-                        </IconButton>
-                      ) : (
-                        <IconButton
-                          onClick={() => setThemeMode(!currentTheme)}
-                          size="medium"
+                        />
+                      </IconButton>
+                    ) : (
+                      <IconButton
+                        onClick={() => setThemeMode(!currentTheme)}
+                        size="medium"
+                        sx={{ color: "#FFFFFF" }}
+                      >
+                        <LightModeIcon
+                          fontSize="medium"
                           sx={{ color: "#FFFFFF" }}
-                        >
-                          <LightModeIcon
-                            fontSize="medium"
-                            sx={{ color: "#FFFFFF" }}
-                          />
-                        </IconButton>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      {currentTheme ? (
-                        <IconButton
-                          onClick={() => setThemeMode(!currentTheme)}
-                          size="large"
-                          sx={{ color: "#FFFFFF" }}
-                        >
-                          <DarkModeIcon fontSize="large" />
-                        </IconButton>
-                      ) : (
-                        <IconButton
-                          onClick={() => setThemeMode(!currentTheme)}
-                          size="large"
-                          sx={{ color: "#FFFFFF" }}
-                        >
-                          <LightModeIcon
-                            fontSize="large"
-                            sx={{ color: "#FFFFFF" }}
-                          />
-                        </IconButton>
-                      )}
-                    </>
-                  )}
+                        />
+                      </IconButton>
+                    )}
+                  </>
                 </Tooltip>
                 {isAuth && <SignOutButton />}
               </Stack>
