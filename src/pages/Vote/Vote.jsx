@@ -139,9 +139,7 @@ const Vote = () => {
           >
             <Tab label="Nominate" {...a11yProps(0)} />
             <Tab label="Vote" {...a11yProps(1)} />
-            {(accounts[0].username === "Vusi.Mahlangu@fasset.org.za" ||
-              accounts[0].username === "Themba.Makamu@fasset.org.za" ||
-              accounts[0].username === "Karabo.Dikgore@fasset.org.za" ||
+            {(accounts[0].username === "Karabo.Dikgore@fasset.org.za" ||
               accounts[0].username === "Apatame.Rajabu@fasset.org.za" ||
               accounts[0].username === "Banele.Nduli@fasset.org.za" ||
               accounts[0].username === "Ntsebeng.Khoarai@fasset.org.za" ||
