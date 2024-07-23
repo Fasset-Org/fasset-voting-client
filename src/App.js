@@ -21,6 +21,11 @@ function App() {
     }
   });
 
+  console.log(
+    "%cAhh my guy just stop, it's pointless",
+    "color: red; font-weight: bold; font-size: 20px;"
+  );
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={currentTheme ? themeLight : themeDark}>
