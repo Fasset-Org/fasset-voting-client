@@ -87,6 +87,16 @@ const Vote = () => {
     );
   };
 
+  const filterByGender = (gender) => {
+    if (gender === "men") {
+      return employeeData?.employees?.filter((option) => option.gender === "M");
+    }
+
+    if (gender === "woman") {
+      return employeeData?.employees?.filter((option) => option.gender === "F");
+    }
+  };
+
   // console.log(accounts)
 
   const {
@@ -174,7 +184,7 @@ const Vote = () => {
                       : `(${
                           category.level.charAt(0).toUpperCase() +
                           category.level.slice(1) +
-                          "s"
+                          ""
                         })`}
                   </Typography>
                   <Formik
@@ -217,6 +227,10 @@ const Vote = () => {
                                     ? filterByType(category.level)
                                     : category.level === "employee"
                                     ? filterAllEmployees(category.level)
+                                    : category.level === "men"
+                                    ? filterByGender("men")
+                                    : category.level === "women"
+                                    ? filterByGender("woman")
                                     : filterByPosition(category.level)
                                 }
                                 fullWidth
@@ -300,7 +314,9 @@ const Vote = () => {
           </Stack>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <Alert color="info">Voting will open once nominations are completed</Alert>
+          <Alert color="info">
+            Voting will open once nominations are completed
+          </Alert>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
           <Results />
