@@ -18,7 +18,7 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 const Navigation = ({ currentTheme, setThemeMode, children }) => {
   const isAuth = useIsAuthenticated();
 
-  console.log(currentTheme);
+  // console.log(currentTheme);
 
   return (
     <Stack>
