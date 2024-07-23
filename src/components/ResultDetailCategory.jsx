@@ -14,7 +14,7 @@ const ResultDetailCategory = ({ categoryId }) => {
   });
 
   if (isSuccess) {
-    console.log("Reached");
+    // console.log("Reached");
     rows = data?.votes?.map((vote) => {
       return {
         id: vote.id,
@@ -24,7 +24,7 @@ const ResultDetailCategory = ({ categoryId }) => {
       };
     });
 
-    console.log(rows);
+    // console.log(rows);
   }
 
   const columns = [
