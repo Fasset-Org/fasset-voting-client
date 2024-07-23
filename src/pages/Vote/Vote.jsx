@@ -152,7 +152,7 @@ const Vote = () => {
             <Typography
               sx={{ fontSize: 20, fontWeight: "bolder", color: "primary.main" }}
             >
-              Please cast your vote in each category
+              Please nominate your nominee in each category
             </Typography>
             {data?.categories?.map((category) => {
               return (
