@@ -51,7 +51,7 @@ export const themeDark = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: "#1ccaff"
+      main: "#1f2f79"
     },
     secondary: {
       main: "#0FFFB3"
@@ -90,9 +90,9 @@ export const themeLight = createTheme({
     },
     MuiButton: {
       styleOverrides: {
-        root: {
-          height: 50
-        }
+        // root: {
+        //   height: 50
+        // }
       }
     },
     // MuiAccordionSummary: {
@@ -114,7 +114,7 @@ export const themeLight = createTheme({
     mode: "light",
     primary: {
       light: "#1f2f79",
-      main: "#163683",
+      main: "#1f2f79",
       info: "#333",
       contrastText: "#ffffff"
     },
