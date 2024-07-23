@@ -1,5 +1,6 @@
 import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import {
+  Alert,
   Autocomplete,
   Backdrop,
   Box,
@@ -139,14 +140,15 @@ const Vote = () => {
             aria-label="basic tabs example"
           >
             <Tab label="Nominate" {...a11yProps(0)} />
+            <Tab label="Vote" {...a11yProps(1)} />
             {(accounts[0].username === "Vusi.Mahlangu@fasset.org.za" ||
               accounts[0].username === "Themba.Makamu@fasset.org.za") && (
-              <Tab label="Results" {...a11yProps(1)} />
+              <Tab label="Results" {...a11yProps(2)} />
             )}
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-        <Stack spacing={2}>
+          <Stack spacing={2}>
             <Typography
               sx={{ fontSize: 20, fontWeight: "bolder", color: "primary.main" }}
             >
@@ -154,7 +156,7 @@ const Vote = () => {
             </Typography>
             {data?.categories?.map((category) => {
               return (
-                <Stack spacing={2}>
+                <Stack spacing={2} key={category.id}>
                   {isSuccess && (
                     <AlertPopup open={true} message={respData?.message} />
                   )}
@@ -298,6 +300,9 @@ const Vote = () => {
           </Stack>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
+          <Alert color="info">Voting will open once nominations are completed</Alert>
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={2}>
           <Results />
         </CustomTabPanel>
       </Box>
