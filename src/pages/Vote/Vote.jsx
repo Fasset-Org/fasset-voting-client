@@ -57,17 +57,9 @@ const Vote = () => {
     enabled: !!accounts[0]?.username
   });
 
-  const accessToken = localStorage.getItem("accessToken");
 
-  const { data: userInfoData, userInfoLoading } = useQuery({
-    queryKey: ["userInfo"],
-    queryFn: () => {
-      return ApiQuery.getUserInfo(accessToken);
-    },
-    enabled: !!accessToken
-  });
 
-  console.log(userInfoData);
+
 
   const filterByType = (type) => {
     return employeeData?.employees?.filter((option) => option.type === type);
@@ -132,7 +124,7 @@ const Vote = () => {
     }
   }, [isLoading]);
 
-  if (categoryLoading || userInfoLoading) {
+  if (categoryLoading) {
     return <LinearProgress />;
   }
 
@@ -201,7 +193,7 @@ const Vote = () => {
                     enableReinitialize
                     key={category.id}
                     onSubmit={(values) => {
-                      console.log(values);
+                      // console.log(values);
                       mutate(values);
                     }}
                   >
