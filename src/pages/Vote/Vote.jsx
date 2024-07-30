@@ -1,128 +1,128 @@
 import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import {
   Alert,
-  Autocomplete,
-  Backdrop,
+  // Autocomplete,
+  // Backdrop,
   Box,
-  Button,
-  CircularProgress,
-  Grid,
-  LinearProgress,
+  // Button,
+  // CircularProgress,
+  // Grid,
+  // LinearProgress,
   Stack,
   Tab,
-  Tabs,
-  TextField,
-  Typography
+  Tabs
+  // TextField,
+  // Typography
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import React from "react";
+// import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Navigate } from "react-router-dom";
-import ApiQuery from "../../ApiQuery";
-import { Form, Formik } from "formik";
-import * as Yup from "yup";
-import AlertPopup from "../../components/AlertPopup";
+// import ApiQuery from "../../ApiQuery";
+// import { Form, Formik } from "formik";
+// import * as Yup from "yup";
+// import AlertPopup from "../../components/AlertPopup";
 import Results from "../../components/Results";
 
 const Vote = () => {
   const [value, setValue] = React.useState(0);
-  const [openBackDrop, setOpenBackDrop] = useState(false);
+  // const [openBackDrop, setOpenBackDrop] = useState(false);
   const isAuth = useIsAuthenticated();
   const { accounts } = useMsal();
 
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const { data, isLoading: categoryLoading } = useQuery({
-    queryKey: ["categories"],
-    queryFn: () => {
-      return ApiQuery.getAllCategories();
-    }
-  });
+  // const { data, isLoading: categoryLoading } = useQuery({
+  //   queryKey: ["categories"],
+  //   queryFn: () => {
+  //     return ApiQuery.getAllCategories();
+  //   }
+  // });
 
-  const { data: employeeData } = useQuery({
-    queryKey: ["employees"],
-    queryFn: () => {
-      return ApiQuery.getAllEmployees();
-    }
-  });
+  // const { data: employeeData } = useQuery({
+  //   queryKey: ["employees"],
+  //   queryFn: () => {
+  //     return ApiQuery.getAllEmployees();
+  //   }
+  // });
 
-  const { data: userVotesData } = useQuery({
-    queryKey: ["userVotes"],
-    queryFn: () => {
-      return ApiQuery.getUserVotes(accounts[0]?.username);
-    },
-    enabled: !!accounts[0]?.username
-  });
+  // const { data: userVotesData } = useQuery({
+  //   queryKey: ["userVotes"],
+  //   queryFn: () => {
+  //     return ApiQuery.getUserVotes(accounts[0]?.username);
+  //   },
+  //   enabled: !!accounts[0]?.username
+  // });
 
-  const filterByType = (type) => {
-    return employeeData?.employees?.filter((option) => option.type === type);
-  };
+  // const filterByType = (type) => {
+  //   return employeeData?.employees?.filter((option) => option.type === type);
+  // };
 
-  const filterByPosition = (position) => {
-    return employeeData?.employees?.filter(
-      (option) => option.position?.toLowerCase() === position?.toLowerCase()
-    );
-  };
+  // const filterByPosition = (position) => {
+  //   return employeeData?.employees?.filter(
+  //     (option) => option.position?.toLowerCase() === position?.toLowerCase()
+  //   );
+  // };
 
-  const filterAllEmployees = (position) => {
-    return employeeData?.employees?.filter(
-      (option) =>
-        option.position?.toLowerCase() !== "intern" &&
-        option.position?.toLowerCase() !== "department"
-    );
-  };
+  // const filterAllEmployees = (position) => {
+  //   return employeeData?.employees?.filter(
+  //     (option) =>
+  //       option.position?.toLowerCase() !== "intern" &&
+  //       option.position?.toLowerCase() !== "department"
+  //   );
+  // };
 
-  const filterByGender = (gender) => {
-    if (gender === "men") {
-      return employeeData?.employees?.filter((option) => option.gender === "M");
-    }
+  // const filterByGender = (gender) => {
+  //   if (gender === "men") {
+  //     return employeeData?.employees?.filter((option) => option.gender === "M");
+  //   }
 
-    if (gender === "woman") {
-      return employeeData?.employees?.filter((option) => option.gender === "F");
-    }
-  };
+  //   if (gender === "woman") {
+  //     return employeeData?.employees?.filter((option) => option.gender === "F");
+  //   }
+  // };
 
   // console.log(accounts)
 
-  const {
-    data: respData,
-    isError,
-    error,
-    isLoading,
-    mutate,
-    isSuccess
-  } = useMutation({
-    mutationFn: (formData) => {
-      return ApiQuery.castVote(formData);
-    },
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["categories"] });
-      queryClient.invalidateQueries({ queryKey: ["userVotes"] });
-      queryClient.invalidateQueries({ queryKey: ["employees"] });
-    },
-    onError: (err) => {
-      console.log(err);
-    }
-  });
+  // const {
+  //   data: respData,
+  //   isError,
+  //   error,
+  //   isLoading,
+  //   mutate,
+  //   isSuccess
+  // } = useMutation({
+  //   mutationFn: (formData) => {
+  //     return ApiQuery.castVote(formData);
+  //   },
+  //   onSuccess: (data) => {
+  //     queryClient.invalidateQueries({ queryKey: ["categories"] });
+  //     queryClient.invalidateQueries({ queryKey: ["userVotes"] });
+  //     queryClient.invalidateQueries({ queryKey: ["employees"] });
+  //   },
+  //   onError: (err) => {
+  //     console.log(err);
+  //   }
+  // });
 
-  const handleClose = () => {
-    setOpenBackDrop(false);
-  };
+  // const handleClose = () => {
+  //   setOpenBackDrop(false);
+  // };
 
-  useEffect(() => {
-    if (isLoading) {
-      setOpenBackDrop(true);
-    } else {
-      setOpenBackDrop(false);
-    }
-  }, [isLoading]);
+  // useEffect(() => {
+  //   if (isLoading) {
+  //     setOpenBackDrop(true);
+  //   } else {
+  //     setOpenBackDrop(false);
+  //   }
+  // }, [isLoading]);
 
-  if (categoryLoading) {
-    return <LinearProgress />;
-  }
+  // if (categoryLoading) {
+  //   return <LinearProgress />;
+  // }
 
   if (!isAuth) {
     return <Navigate to="/" />;
@@ -149,7 +149,11 @@ const Vote = () => {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <Stack spacing={2}>
+          <Alert color="error" severity="error">
+            Nominations are closed
+          </Alert>
+
+          {/* <Stack spacing={2}>
             <Typography
               sx={{ fontSize: 20, fontWeight: "bolder", color: "primary.main" }}
             >
@@ -254,11 +258,7 @@ const Vote = () => {
                                   );
                                 }}
                               />
-                              {/* <AutoCompleteWrapper
-                                name="id"
-                                label="Select nominee"
-                                defaultValue={values.id || null}
-                              /> */}
+                           
                             </Grid>
                             <Grid item xs={12} md={12}>
                               <Stack direction="row" justifyContent="end">
@@ -302,11 +302,11 @@ const Vote = () => {
                 </Stack>
               );
             })}
-          </Stack>
+          </Stack> */}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           <Alert color="info">
-            Voting will open once nominations are completed
+            Voting will open soon
           </Alert>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
