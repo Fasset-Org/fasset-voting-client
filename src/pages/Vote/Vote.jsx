@@ -143,8 +143,7 @@ const Vote = () => {
               accounts[0].username === "Apatame.Rajabu@fasset.org.za" ||
               accounts[0].username === "Banele.Nduli@fasset.org.za" ||
               accounts[0].username === "Ntsebeng.Khoarai@fasset.org.za" ||
-              accounts[0].username === "Thabo.Khwenenyana@fasset.org.za" ||
-              accounts[0].username === "Themba.Makamu@fasset.org.za") && (
+              accounts[0].username === "Thabo.Khwenenyana@fasset.org.za") && (
               <Tab label="Results" {...a11yProps(2)} />
             )}
           </Tabs>
@@ -306,7 +305,9 @@ const Vote = () => {
           </Stack> */}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <Alert color="info">Voting will open soon</Alert>
+          <Alert color="info">
+            Voting will open soon
+          </Alert>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
           <Results />
