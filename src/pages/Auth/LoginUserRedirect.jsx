@@ -14,10 +14,10 @@ const LoginUserRedirect = () => {
       instance
         .handleRedirectPromise()
         .then((response) => {
-          console.log("Redirect response:", response);
+          // console.log("Redirect response:", response);
           if (response) {
             localStorage.setItem("accessToken", response.accessToken);
-            console.log("Redirect response:", response);
+            // console.log("Redirect response:", response);
             // localStorage.setItem("accessToken", response.accessToken);
           }
         })
