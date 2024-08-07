@@ -41,10 +41,11 @@ export const msalConfig = {
 };
 
 export const loginRequest = {
-  scopes: ["User.Read", "User.ReadBasic.All",]
+  scopes: ["User.Read", "User.ReadBasic.All"]
 };
 
 export const graphConfig = {
   graphMeEndpoint: "https://graph.microsoft.com/v1.0/me",
-  graphUserEndpoint: "https://graph.microsoft.com/v1.0/me?$select=jobTitle,department"
+  graphUserEndpoint:
+    "https://graph.microsoft.com/v1.0/me?$select=jobTitle,department"
 };
