@@ -1,61 +1,67 @@
 import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import {
   Alert,
+  Autocomplete,
+  Backdrop,
   // Autocomplete,
   // Backdrop,
   Box,
+  Button,
+  CircularProgress,
+  Grid,
+  LinearProgress,
   // Button,
   // CircularProgress,
   // Grid,
   // LinearProgress,
   Stack,
   Tab,
-  Tabs
-  // TextField,
-  // Typography
+  Tabs,
+  TextField,
+  Typography
 } from "@mui/material";
-import React from "react";
-// import { useMutation, useQuery, useQueryClient } from "react-query";
+import React, { useEffect, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Navigate } from "react-router-dom";
-// import ApiQuery from "../../ApiQuery";
-// import { Form, Formik } from "formik";
-// import * as Yup from "yup";
-// import AlertPopup from "../../components/AlertPopup";
+import ApiQuery from "../../ApiQuery";
+import { Form, Formik } from "formik";
+import * as Yup from "yup";
+import AlertPopup from "../../components/AlertPopup";
 import Results from "../../components/Results";
 
 const Vote = () => {
   const [value, setValue] = React.useState(0);
-  // const [openBackDrop, setOpenBackDrop] = useState(false);
+  const [openBackDrop, setOpenBackDrop] = useState(false);
   const isAuth = useIsAuthenticated();
   const { accounts } = useMsal();
 
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  // const { data, isLoading: categoryLoading } = useQuery({
-  //   queryKey: ["categories"],
-  //   queryFn: () => {
-  //     return ApiQuery.getAllCategories();
-  //   }
-  // });
+  const { data, isLoading: categoryLoading } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => {
+      return ApiQuery.getAllCategories();
+    }
+  });
 
-  // const { data: employeeData } = useQuery({
-  //   queryKey: ["employees"],
-  //   queryFn: () => {
-  //     return ApiQuery.getAllEmployees();
-  //   }
-  // });
+  const { data: employeeData } = useQuery({
+    queryKey: ["employees"],
+    queryFn: () => {
+      return ApiQuery.getAllEmployees();
+    }
+  });
 
-  // const { data: userVotesData } = useQuery({
-  //   queryKey: ["userVotes"],
-  //   queryFn: () => {
-  //     return ApiQuery.getUserVotes(accounts[0]?.username);
-  //   },
-  //   enabled: !!accounts[0]?.username
-  // });
+  const { data: userVotesData } = useQuery({
+    queryKey: ["userVotes"],
+    queryFn: () => {
+      return ApiQuery.getUserVotes(accounts[0]?.username);
+    },
+    enabled: !!accounts[0]?.username
+  });
 
   // const filterByType = (type) => {
   //   return employeeData?.employees?.filter((option) => option.type === type);
@@ -85,44 +91,48 @@ const Vote = () => {
   //   }
   // };
 
-  // console.log(accounts)
+  const filterByCategory = (category) => {
+    return employeeData?.employees?.filter((option) => {
+      return option.type === category;
+    });
+  };
 
-  // const {
-  //   data: respData,
-  //   isError,
-  //   error,
-  //   isLoading,
-  //   mutate,
-  //   isSuccess
-  // } = useMutation({
-  //   mutationFn: (formData) => {
-  //     return ApiQuery.castVote(formData);
-  //   },
-  //   onSuccess: (data) => {
-  //     queryClient.invalidateQueries({ queryKey: ["categories"] });
-  //     queryClient.invalidateQueries({ queryKey: ["userVotes"] });
-  //     queryClient.invalidateQueries({ queryKey: ["employees"] });
-  //   },
-  //   onError: (err) => {
-  //     console.log(err);
-  //   }
-  // });
+  const {
+    data: respData,
+    isError,
+    error,
+    isLoading,
+    mutate,
+    isSuccess
+  } = useMutation({
+    mutationFn: (formData) => {
+      return ApiQuery.castVote(formData);
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+      queryClient.invalidateQueries({ queryKey: ["userVotes"] });
+      queryClient.invalidateQueries({ queryKey: ["employees"] });
+    },
+    onError: (err) => {
+      console.log(err);
+    }
+  });
 
-  // const handleClose = () => {
-  //   setOpenBackDrop(false);
-  // };
+  const handleClose = () => {
+    setOpenBackDrop(false);
+  };
 
-  // useEffect(() => {
-  //   if (isLoading) {
-  //     setOpenBackDrop(true);
-  //   } else {
-  //     setOpenBackDrop(false);
-  //   }
-  // }, [isLoading]);
+  useEffect(() => {
+    if (isLoading) {
+      setOpenBackDrop(true);
+    } else {
+      setOpenBackDrop(false);
+    }
+  }, [isLoading]);
 
-  // if (categoryLoading) {
-  //   return <LinearProgress />;
-  // }
+  if (categoryLoading) {
+    return <LinearProgress />;
+  }
 
   if (!isAuth) {
     return <Navigate to="/" />;
@@ -143,21 +153,25 @@ const Vote = () => {
               accounts[0].username === "Apatame.Rajabu@fasset.org.za" ||
               accounts[0].username === "Banele.Nduli@fasset.org.za" ||
               accounts[0].username === "Ntsebeng.Khoarai@fasset.org.za" ||
-              accounts[0].username === "Thabo.Khwenenyana@fasset.org.za") && (
+              accounts[0].username === "Thabo.Khwenenyana@fasset.org.za" ||
+              accounts[0].username === "Themba.Makamu@fasset.org.za") && (
               <Tab label="Results" {...a11yProps(2)} />
             )}
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <Alert color="error" severity="error">
+          <Alert color="error">Nominations are closed</Alert>
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>
+          {/* <Alert color="error" severity="error">
             Nominations are closed
-          </Alert>
+          </Alert> */}
 
-          {/* <Stack spacing={2}>
+          <Stack spacing={2}>
             <Typography
               sx={{ fontSize: 20, fontWeight: "bolder", color: "primary.main" }}
             >
-              Please nominate your nominee in each category
+              Please cast your vote in each category
             </Typography>
             {data?.categories?.map((category) => {
               return (
@@ -174,13 +188,13 @@ const Vote = () => {
                   )}
                   <Typography fontSize={15} fontWeight="bold">
                     {category.category}{" "}
-                    {category.level === "employee"
+                    {/* {category.level === "employee"
                       ? `(${"All FASSET Staff"})`
                       : `(${
                           category.level.charAt(0).toUpperCase() +
                           category.level.slice(1) +
                           ""
-                        })`}
+                        })`} */}
                   </Typography>
                   <Formik
                     initialValues={{
@@ -217,17 +231,7 @@ const Vote = () => {
                                       )
                                     : null
                                 }
-                                options={
-                                  category.level === "department"
-                                    ? filterByType(category.level)
-                                    : category.level === "employee"
-                                    ? filterAllEmployees(category.level)
-                                    : category.level === "men"
-                                    ? filterByGender("men")
-                                    : category.level === "women"
-                                    ? filterByGender("woman")
-                                    : filterByPosition(category.level)
-                                }
+                                options={filterByCategory(category.category)}
                                 fullWidth
                                 getOptionLabel={(option) =>
                                   option ? option.fullName : ""
@@ -258,7 +262,6 @@ const Vote = () => {
                                   );
                                 }}
                               />
-                           
                             </Grid>
                             <Grid item xs={12} md={12}>
                               <Stack direction="row" justifyContent="end">
@@ -275,7 +278,7 @@ const Vote = () => {
                                     true
                                   }
                                 >
-                                  Nominate
+                                  Vote
                                 </Button>
                               </Stack>
                             </Grid>
@@ -302,13 +305,9 @@ const Vote = () => {
                 </Stack>
               );
             })}
-          </Stack> */}
+          </Stack>
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <Alert color="info">
-            Voting will open soon
-          </Alert>
-        </CustomTabPanel>
+
         <CustomTabPanel value={value} index={2}>
           <Results />
         </CustomTabPanel>
