@@ -20,14 +20,15 @@ import {
   // TextField,
   // Typography
 } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 // import { useMutation, useQuery, useQueryClient } from "react-query";
 // import { Navigate } from "react-router-dom";
 // import ApiQuery from "../../ApiQuery";
 // import { Form, Formik } from "formik";
-import * as Yup from "yup";
+// import * as Yup from "yup";
 // import AlertPopup from "../../components/AlertPopup";
 import Results from "../../components/Results";
+import { Navigate } from "react-router-dom";
 
 const Vote = () => {
   const [value, setValue] = React.useState(0);
@@ -37,9 +38,9 @@ const Vote = () => {
 
   // const queryClient = useQueryClient();
 
-  // const handleChange = (event, newValue) => {
-  //   setValue(newValue);
-  // };
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   // const { data, isLoading: categoryLoading } = useQuery({
   //   queryKey: ["categories"],
