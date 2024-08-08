@@ -166,7 +166,7 @@ const Vote = () => {
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           <Alert color="error" severity="error">
-            Nominations are closed
+            Voting session is closed
           </Alert>
 
           {/* <Stack spacing={2}>
